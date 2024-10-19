@@ -107,8 +107,9 @@ cus_subscription.post("/create", async (c) => {
         customerId, 
         c.env, 
         subscription_plan_id,
-        "payment_invoice"
+        "invoice_issue"
       );
+
 
       const invoiceId = invoiceResult.invoiceId;
 

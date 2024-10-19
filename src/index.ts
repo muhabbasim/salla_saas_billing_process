@@ -17,7 +17,15 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
-app.get('/', c => c.text('Saas Application'))
+
+
+
+app.get('/', async c => {
+  // Store the RESEND_KEY_ID in the Cloudflare KV store
+  await c.env.RESEND_API_KEY.put('resend_api', "should be ur resend api key");
+
+  return c.text('SaaS Application');
+});
 
 
 // Handle all routes

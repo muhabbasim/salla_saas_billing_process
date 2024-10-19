@@ -64,15 +64,16 @@ This project is a cloud-based billing and subscription management system built u
 
 ## Installation
 
-1. Clone the repository:
-git clone https://github.com/muhabbasim/salla_saas_billing_process.git
-
+1. Clone the repository: "git clone https://github.com/muhabbasim/salla_saas_billing_process.git"
 2. npm install
-3. npm run 
-3. wrangler dev
-3. wrangler deploy
-3. npm test => for running tests using vitest
-3. wrangler tail -> for locally testing the Cloudflare Workers' scheduled cron triggers
+// to applay the data locally run: npx wrangler@latest d1 migrations apply saas 
+4. add  Resend API key to .env variables fot the email notification to work
+#npm start 
+#wrangler dev -> for local development
+#wrangler deploy -> for deployment
+#npm test => for running tests using vitest
+#wrangler tail -> for locally testing the Cloudflare Workers' scheduled cron triggers
+
 
 ### 6. **Usage & API's Endpoints**
 
