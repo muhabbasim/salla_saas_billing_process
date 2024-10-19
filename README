@@ -71,6 +71,7 @@ git clone https://github.com/muhabbasim/salla_saas_billing_process.git
 3. npm run 
 3. wrangler dev
 3. wrangler deploy
+3. npm test => for running tests using vitest
 3. wrangler tail -> for locally testing the Cloudflare Workers' scheduled cron triggers
 
 ### 6. **Usage & API's Endpoints**
@@ -106,5 +107,16 @@ POST	/api/process_payment	Generate a payment	json { "invoice_id": 456, "amount":
 
 
 ## Note
-- Resend API Restriction: Currently, the Resend API can only send emails to the assigned email address due to domain verification restrictions. To send emails to other recipients, domain verification is required.
-- Back-End Focus Due to Time Constraints: This project focuses on the back-end only with no authentication due to limited time constraints. However, all API endpoints can be tested using an API testing environment (e.g., Postman, Insomnia) or directly through the deployed routes.
+  - Resend API Restriction: Currently, the Resend API can only send emails to the assigned email address due to domain verification restrictions. To send emails to other recipients, domain verification is required.
+  
+  - Back-End Focus Due to Time Constraints: This project focuses on the back-end only with no authentication due to limited time constraints. However, all API endpoints can be tested using an API testing environment (e.g., Postman, Insomnia) or directly through the deployed routes.
+
+## personal not 
+
+I am excited to submit the backend challenge that I’ve been working on. This project has been both a rewarding and fulfilling experience, and it has deepened my passion for backend development. Through this challenge, I’ve had the opportunity to sharpen my skills and further my understanding of the technologies that make impactful, scalable systems.
+
+While I understand that there may also be a frontend challenge available, I would like to express that my priority and enthusiasm lie in backend development. I believe that my skills and passion align closely with this area, and I am genuinely excited by the prospect of contributing to your team in this capacity.
+
+
+Best regards,
+for more information and clarification feel free to email me at thanibasim@gmail.com
