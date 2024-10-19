@@ -1,11 +1,13 @@
-import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+// import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+import { defineConfig } from 'vitest/config';
 
-export default defineWorkersConfig({
+export default defineConfig({
+
 	test: {
-		poolOptions: {
-			workers: {
-				wrangler: { configPath: './wrangler.toml' },
-			},
-		},
-	},
+    // Default test settings for local function testing
+    environment: 'node',  // Use 'node' environment for local functions
+    globals: true,        // Use global variables in tests if needed
+    // setupFiles: ['./test/setup.ts'], // Optional: setup files to run before tests
+  },
+	
 });

@@ -1,0 +1,110 @@
+
+**SaaS Billing and Subscription Management System**
+
+This project is a cloud-based billing and subscription management system built using Cloudflare Workers, and KV storage. It supports subscription management, prorated billing, automated invoice generation, and integrates with external email services using Resend for sending email notifications.
+
+## Features
+
+- Multi-tier subscription management (e.g., Basic, Pro, Enterprise)
+- Automated billing and invoice generation
+- Prorated billing for mid-cycle plan upgrades or downgrades
+- Email notifications using Resend for invoices, payments, and reminders
+- Durable Objects for subscription and session management
+- Cloudflare Workers for scalable and serverless backend
+
+
+## Design approach
+
+1. Serverless Architecture with Cloudflare Workers
+  - Scalability: Automatically scales with user demand without managing servers.
+  - Global Availability: Cloudflare Workers run in data centers worldwide, reducing latency.
+
+2. Modular Design 
+  - Separation of Concerns: Each feature (customers, subscriptions, invoices, payments) is handled independently.
+  - Ease of Maintenance: Modules can be updated or expanded without affecting the rest of the system.
+  - Flexibility: Allows for quick changes and additions to specific parts of the system.
+
+4. Data Storage with D1 Database
+  - Relational Structure: Links customers, subscriptions, invoices, and payments for easy data retrieval.
+  - Transaction Safety: Ensures secure and accurate handling of invoices and payments within the database.
+
+5. Error Handling and Validation
+  - Comprehensive Validation: Checks for missing or incorrect data at each step, ensuring data integrity.
+  - Clear Error Messages: Provides meaningful feedback and logs errors for debugging.
+  - HTTP Status Codes: Follows standard REST principles with appropriate status codes for success, errors, or missing data.
+
+6. Automated Billing and Prorated Charges
+  - Billing Engine: Automatically generates invoices at the end of each billing cycle and processes payments.
+  - Prorated Billing: Handles plan upgrades or downgrades mid-cycle, adjusting charges accordingly.
+  # note: 
+    - Domain Restriction: Currently, the Resend API can only send emails to the assigned email address due to domain verification restrictions. To send emails to other recipients, the domain needs to be verified
+
+7. Email Notifications with Resend API
+  - Automated Emails: Sends notifications for new invoices, successful payments, and reminders via Resend.
+  - Customer Engagement: Keeps users informed about their billing status and any changes to their subscriptions.
+
+8. Comprehensive Testing
+  - Unit Tests with Vitest: Ensures each function works as expected, including billing, emails, and functions.
+
+9. Security and Deployment
+  - Environment Variables: Stores sensitive data like API keys securely in Cloudflare KV.
+  - Input Sanitization: Protects against SQL injection and other security threats by validating inputs.
+  - Easy Deployment: The Wrangler CLI makes deploying updates and changes straightforward and quick.
+
+
+
+## Tech Stack
+
+- **Cloudflare Workers**: Serverless environment for handling backend processes
+- **D1 Database**: Used for storing customer and subscription data
+- **KV Storage**: For storing API keys and other configuration settings
+- **Resend API**: For handling transactional email notifications 
+- **TypeScript**: For type-safe development
+
+
+## Installation
+
+1. Clone the repository:
+git clone https://github.com/muhabbasim/salla_saas_billing_process.git
+
+2. npm install
+3. npm run 
+3. wrangler dev
+3. wrangler deploy
+3. wrangler tail -> for locally testing the Cloudflare Workers' scheduled cron triggers
+
+### 6. **Usage & API's Endpoints**
+
+# customer (subscriptions)
+GET	 /api/customers	 Fetch all customers	
+GET	 /api/customers/:id	 Fetch a customer by ID
+POST	/api/customers	Add a new subscription with no invoice or payment	 json { "name": "John Doe", "email": "johndoe@example.com", "subscription_plan_id": "2", subscription_status: "active"}
+POST	/api/customers_subs/create	Create a new subscription with invoice & payments	 json { "name": "John Doe", "email": "johndoe@example.com", "subscription_plan_id": "2", payment_method: "paypal"}
+POST	/api/customers_subs/assign	Assign customer to new subscription	json { "customer_id": "2", "subscription_plan_id": "2"}
+PUT	 /api/customers/:id	 Update a subscription by ID	json { "name": "Jane Doe", "email": "janedoe@example.com" }
+PUT	 /api/customers/mid_cycle_changes	 Handle Mid cycle change a customer by ID	json { "customer_id": "1", "new_subscription_plan": "4" }
+
+# subscriptions_plans
+GET	 /api/subscriptions	Fetch all subscription plans
+GET	 /api/subscriptions/:id	Fetch a subscription plan by ID
+POST	/api/subscriptions/create	Create a subscription plan	json { "name": "Basic Plan", "billing_cycle": "monthly", "price": 10.00, "status": "active" }
+PUT	 /api/subscriptions/:id	Update a subscription plan by ID	json { "name": "Pro Plan", "billing_cycle": "yearly", "price": 100.00, "status": "active" }
+
+# invoices
+GET	 /api/invoices	Fetch all invoices
+GET	 /api/invoices/:id	Fetch an invoice by ID
+PUT	 /api/invoices/:id	Update an invoice	json { "customer_id": 123, "amount": 100.00, "due_date": "2024-11-01", "payment_status": "pending" }
+GET	 /api/customer_invoices/:id	 Get list of invoice for customer	json { "customer_id": 123, "amount": 100.00, "due_date": "2024-11-01", "payment_status": "pending" }
+POST	/api/generate_invoice	 Generate an invoice	json { "customer_id": 123, "subscription_plan_id": 2 }
+
+# payments
+GET	 /api/payments	Fetch all payments
+GET	 /api/payments/:id	Fetch a payment by ID
+PUT	 /api/payments/:id	Update a payment by ID json { "invoice_id": 456, "amount": 50.00, "payment_method": "credit card", "payment_date":"2024-10-17" }
+POST	/api/process_payment	Generate a payment	json { "invoice_id": 456, "amount": 50.00, "payment_method": "credit card" }
+
+
+
+## Note
+- Resend API Restriction: Currently, the Resend API can only send emails to the assigned email address due to domain verification restrictions. To send emails to other recipients, domain verification is required.
+- Back-End Focus Due to Time Constraints: This project focuses on the back-end only with no authentication due to limited time constraints. However, all API endpoints can be tested using an API testing environment (e.g., Postman, Insomnia) or directly through the deployed routes.

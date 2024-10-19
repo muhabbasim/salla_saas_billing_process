@@ -8,7 +8,7 @@ type Bindings = {
   DB: D1Database;
 };
 
-export async function HandleSendEmails(env: Bindings, content: contentProps) {
+export async function HandleSendEmails(env: any, content: contentProps) {
   try {
     // Retrieve the API key from Cloudflare KV
     const resendApiCash = await env.RESEND_API_KEY.get("resend_api");

@@ -160,48 +160,6 @@ invoice.post("/generate_invoice", async (c) => {
 });
 
 
-// Add a new invoice
-invoice.post("/invoices", async (c) => {
-  try {
-    
-    const body = await c.req.json(); 
-    const { customer_id, amount, due_date, payment_status } = body;
-
-    // Ensure required fields are present
-    if (!customer_id || !amount || !due_date || !payment_status) {
-      return c.json({ message: 'Missing required fields' }, 400);
-    }
-
-    // Prepare and run the SQL query to insert the invoice
-    const res = await c.env.DB.prepare(
-      "INSERT INTO invoice (customer_id, amount, due_date, payment_status) VALUES (?, ?, ?, ?)"
-    )
-    .bind(customer_id, amount, due_date, payment_status)
-    .run();
-
-    // Check if the res was successful
-    if (!res.success) {
-      return c.json({ message: 'Failed to add invoice' }, 500);
-    }
-
-    // Get the added invoice
-    const lastInsertId = res.meta?.last_row_id;
-
-    const newInvoice = await c.env.DB.prepare(
-      "SELECT * FROM invoice WHERE id = ?"
-    ).bind(lastInsertId).first();
-
-    return c.json({ message: 'Invoice added successfully', invoice: newInvoice });
-
-  } catch (err: any) {
-    console.error(err);
-    return c.json({
-      error: true,
-      message: err.message || 'Internal Server Error'
-    }, 500);
-  }
-});
-
 
 
 export default invoice;

@@ -24,7 +24,6 @@ id = "68aa8a59d82e492aa6e3ae9892885874"
 #]
 
 
-
 # Enable scheduled events
 [triggers]
 crons = ["*/1 * * * *"] # Runs every 1 minutes

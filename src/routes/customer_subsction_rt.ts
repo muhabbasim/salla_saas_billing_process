@@ -152,20 +152,19 @@ cus_subscription.post("/create", async (c) => {
 
 
 // create a subscription for customer
-cus_subscription.put("/update", async (c) => {
+cus_subscription.put("/mid_cycle_changes", async (c) => {
 
   try {
     
     const body = await c.req.json(); 
-    const { id, new_subscription_plan } = body;
+    const { customer_id, new_subscription_plan } = body;
 
-    const customerId = id;
 
     const newSubscriptionPlan = await c.env.DB.prepare(
       "SELECT billing_cycle, price FROM subscription_plan WHERE id = ?"
     ).bind(new_subscription_plan).first();
 
-    const proratedBill = await handleProratedBilling(c.env, customerId, new_subscription_plan)
+    const proratedBill = await handleProratedBilling(c.env, customer_id, new_subscription_plan)
     return c.json({newSubscriptionPlan, proratedBill})
     
   } catch (err: any) {
