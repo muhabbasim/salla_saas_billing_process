@@ -2,7 +2,13 @@
 import { Resend } from 'resend';
 import { contentProps } from './utils';
 
-export async function HandleSendEmails(env: any, content: contentProps) {
+type Bindings = {
+  RESEND_API_KEY: KVNamespace;
+  SUBSCRIPTION_DATA: KVNamespace;
+  DB: D1Database;
+};
+
+export async function HandleSendEmails(env: Bindings, content: contentProps) {
   try {
     // Retrieve the API key from Cloudflare KV
     const resendApiCash = await env.RESEND_API_KEY.get("resend_api");
@@ -34,85 +40,3 @@ export async function HandleSendEmails(env: any, content: contentProps) {
   }
 }
 
-
-// import { Resend } from 'resend';
-// import { Bindings } from '../routes/customer_subsction_rt';
-
-// export async function HandleSendEmails(env: any) {
-
-//   try {
-
-//     // Retrieve the API key from Cloudflare KV
-//     const resendApiCash = await env.RESEND_API_KEY.get("resend_api");
-    
-//     if (!resendApiCash) {
-//       throw new Error("Resend API key not found in KV storage");
-//     }
-
-//     // Prepare the request to send the email
-//     const resend = new Resend(env.RESEND_API_KEY);
-    
-//     const res = await resend.emails.send({
-//       from: 'onboarding@resend.dev',
-//       to: 'mjnoonha90@gmail.com',
-//       subject: 'Hello World',
-//       html: '<p>New bill is due <strong>the amount is 30$</strong>!</p>'
-//     });
-
-//     return true;
-
-//   } catch (err: any) {
-//     console.error("Error sending email:", err.message);
-//     return {
-//       error: true,
-//       message: err.message || "Internal Server Error"
-//     };
-//   }
-
-
-// }
-
-
-
-    // // Retrieve the API key from Cloudflare KV
-    // const resendApiCash = await c.env.RESEND_API_KEY.get("resend_api");
-
-    //     // Prepare the request to send the email
-    //     const resendRes = new Resend(resendApiCash);
-    
-    //     const res = await resendRes.emails.send({
-    //       from: 'onboarding@resend.dev',
-    //       to: 'mjnoonha90@gmail.com',
-    //       subject: 'Hello World',
-    //       html: '<p>New bill is due <strong>the amount is 30$</strong>!</p>'
-    //     });
-    
-    // const emailData = {
-    //   from: 'onboarding@resend.dev',
-    //   to: 'mjnoonha90@gmail.com',
-    //   subject: 'Hello World',
-    //   html: '<p>New bill is due <strong>the amount is 30$</strong>!</p>'
-    // }
-    
-    //    // Send the email using Resend API
-    //    const response = await fetch("https://api.resend.com/emails", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "Authorization": `Bearer ${resendApiCash}`,
-    //     },
-    //     body: JSON.stringify(emailData),
-    //   });
-  
-    //   const result = await res.json();
-  
-    //   if (!response.ok) {
-    //     throw new Error(`Failed to send email: ${result}`);
-    //   }
-
-    // return c.json({
-    //   "subscription_plan": subscriptionPlan,
-    //   "api_key": resendApiCash,
-    //   "resend": resendRes,
-    //   "sendEmail": res,
-    // })

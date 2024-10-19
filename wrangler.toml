@@ -14,13 +14,29 @@ database_id = "ff305223-bda6-4c07-af88-22d090c0c2e1"
 binding = "RESEND_API_KEY"
 id = "99e1777bb9354b408cf89b343a26dad5"
 
-#re_bmEWrmhp_LdwboYvAi6HxRZzVuxCcP7Bu
+[[kv_namespaces]]
+binding = "SUBSCRIPTION_DATA"
+id = "68aa8a59d82e492aa6e3ae9892885874"
+
+#[durable_objects]
+#bindings = [
+# { name = "SUBSCRIPTION_OBJECT", class_name = "SubscriptionObject" }
+#]
+
+
 
 # Enable scheduled events
 [triggers]
 crons = ["*/1 * * * *"] # Runs every 1 minutes
 # crons = ["0 0 * * *"]  # Runs every day at midnight 
 
+
+
+#[[migrations]]
+#tag = "v2" # Increment the tag for the new migration
+#new_classes = [] # List any new classes (if you create any new objects)
+#renamed_classes = [] # If you rename existing objects
+#deleted_classes = [] 
 
 
 # Workers Logs
@@ -72,18 +88,7 @@ enabled = true
 # binding = "MY_DISPATCHER"
 # namespace = "my-namespace"
 
-# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
-# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#durable-objects
-# [[durable_objects.bindings]]
-# name = "MY_DURABLE_OBJECT"
-# class_name = "MyDurableObject"
 
-# Durable Object migrations.
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
-# [[migrations]]
-# tag = "v1"
-# new_classes = ["MyDurableObject"]
 
 # Bind a Hyperdrive configuration. Use to accelerate access to your existing databases from Cloudflare Workers.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#hyperdrive
